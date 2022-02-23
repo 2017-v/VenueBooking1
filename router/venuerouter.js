@@ -5,7 +5,7 @@ const venueModel = require("../Model/venueModel.js");
 const venueRouter = express.Router();
 
 
-venueRouter.get("/fetchAllVenue", async()=>{
+venueRouter.get("/fetchAllVenue", async(req,res)=>{
     try {
         const venues = await venueModel.find({});
         if (venues) res.status(200).json({ venues });
@@ -17,7 +17,7 @@ venueRouter.get("/fetchAllVenue", async()=>{
 });
 
 
-venueRouter.get("/fetchVenue/:id", async()=>{
+venueRouter.get("/fetchVenue/:id", async(req,res)=>{
     const { id } = req.params;
   try {
     const venue = await venueModel.findById(id);
@@ -29,7 +29,7 @@ venueRouter.get("/fetchVenue/:id", async()=>{
 });
 
 
-venueRouter.post("/addVenue", ownerAuth, async()=>{
+venueRouter.post("/addVenue", ownerAuth, async(req,res)=>{
     const newVenue = new venueModel({ ...req.body, owner: req.owner._id });
     try {
       await newVenue.save();
@@ -40,7 +40,7 @@ venueRouter.post("/addVenue", ownerAuth, async()=>{
     }
 });
 
-venueRouter.patch("/editVenue/:id", ownerAuth, async()=>{
+venueRouter.patch("/editVenue/:id", ownerAuth, async(req,res)=>{
     const { id } = req.params;
 
     try { 
@@ -56,7 +56,7 @@ venueRouter.patch("/editVenue/:id", ownerAuth, async()=>{
 });
 
 
-venueRouter.delete( "/deleteVenue/:id", ownerAuth, async()=>{
+venueRouter.delete( "/deleteVenue/:id", ownerAuth, async(req,res)=>{
     const { id } = req.params;
     try {
       const data = await venueModel.findByIdAndDelete(id);
