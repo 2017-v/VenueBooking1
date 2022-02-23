@@ -1,7 +1,8 @@
 const express = require("express");
-const auth = require("../Middleware/auth.js")
+const userAuth = require("../Middleware/userAuth.js")
 const userModel = require ("../Model/user.js");
 const userRouter = express.Router();
+
 
 userRouter.post("/signup", async (req,res)=>{
     const newUser = new userModel(req.body);
@@ -26,7 +27,7 @@ userRouter.post("/login", async (req,res)=>{
       }
 });
 
-userRouter.post("/logout", auth, async (req,res)=>{
+userRouter.post("/logout",userAuth, async (req,res)=>{
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
           return token.token !== req.token;

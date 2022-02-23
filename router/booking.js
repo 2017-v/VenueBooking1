@@ -1,8 +1,9 @@
 const express = require("express");
-const auth = require("../Middleware/auth.js")
+const userAuth = require("../Middleware/userAuth.js")
 const moment = require ("moment");
 const BookingModel = require ('../Model/Booking.js')
 const BookingRouter = express.Router();
+
 
 BookingRouter.get("/availableSlots", async(req,res)=>{
     const { date } = req.query;
@@ -38,7 +39,7 @@ BookingRouter.get("/availableSlots", async(req,res)=>{
     }
       
 });
-BookingRouter.post("/bookSlot", auth, async (req,res)=>{
+BookingRouter.post("/bookSlot",userAuth, async (req,res)=>{
     const { date, name, reqSlot } = req.body;
   const bookingDate = moment(new Date(date)).add(1, "days");
 
@@ -63,7 +64,7 @@ BookingRouter.post("/bookSlot", auth, async (req,res)=>{
     res.status(500).send("Error: " + err.message);
   }
 });
-BookingRouter.patch("/bookSlot/:id", auth, async(req,res)=>{
+BookingRouter.patch("/bookSlot/:id", userAuth, async(req,res)=>{
     const { date, name, reqSlot } = req.body;
     const { id } = req.params;
     const bookingDate = moment(new Date(date)).add(1, "days");
@@ -92,7 +93,7 @@ BookingRouter.patch("/bookSlot/:id", auth, async(req,res)=>{
     }
   
 });
-BookingRouter.delete("/bookSlot/:id", auth, async(req,res)=>{
+BookingRouter.delete("/bookSlot/:id", userAuth, async(req,res)=>{
     const { id } = req.params;
     try {
       const data = await BookingModel.findByIdAndDelete(id);

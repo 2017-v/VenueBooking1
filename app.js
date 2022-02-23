@@ -3,7 +3,7 @@ const express = require("express");
 
  const BookingRouter = require("./router/booking.js");
 const userRouter = require("./router/userrouter.js");
-
+const venueRouter = require("./router/venuerouter.js");
 const app = express();
 
 app.use(express.json());
@@ -11,7 +11,7 @@ app.use(express.json());
 // app.use("/venueBooking", venueBookingRouter);
  app.use("/user", userRouter);
  app.use("/booking",BookingRouter)
-
+ app.use("/venue",venueRouter)
 //DB Connection
 
 
